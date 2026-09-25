@@ -150,6 +150,30 @@
     0%, 100% { opacity: 0.4; }
     50% { opacity: 1; }
   }
+
+/* ===== MUSIC CONTROL ===== */
+.sound-button{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  width:50px;
+  height:50px;
+  border:1px solid rgba(255,255,255,.2);
+  border-radius:50%;
+  background:rgba(0,0,0,.55);
+  backdrop-filter:blur(10px);
+  color:#fff;
+  font-size:22px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:.2s ease;
+  z-index:9999;
+}
+.sound-button:hover{transform:scale(1.1);background:rgba(255,255,255,.12)}
+.sound-button:active{transform:scale(.95)}
+
 </style>
 </head>
 <body>
@@ -270,6 +294,52 @@ function render() {
 }
 
 </script>
+
+<!-- Фоновая музыка -->
+<audio id="bgMusic" loop preload="auto">
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<button id="soundButton" class="sound-button" aria-label="Включить или выключить музыку">🔊</button>
+
+<script>
+(function () {
+  const music = document.getElementById("bgMusic");
+  const button = document.getElementById("soundButton");
+
+  if (!music || !button) return;
+
+  music.volume = 0.30;
+  let started = false;
+
+  function startMusic() {
+    if (started) return;
+
+    music.play().then(() => {
+      started = true;
+      button.textContent = "🔊";
+    }).catch(() => {});
+  }
+
+  // Браузер разрешает звук после взаимодействия пользователя.
+  document.addEventListener("click", startMusic, { once: true });
+
+  button.addEventListener("click", function (event) {
+    event.stopPropagation();
+
+    if (music.paused) {
+      music.play().then(() => {
+        started = true;
+        button.textContent = "🔊";
+      }).catch(() => {});
+    } else {
+      music.pause();
+      button.textContent = "🔇";
+    }
+  });
+})();
+</script>
+
 </body>
 </html>
 ```
