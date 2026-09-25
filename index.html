@@ -6,6 +6,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>MrNevil</title>
 <style>
   @import url('https://cdn.jsdelivr.net/npm/fontsource-inter@5.0.0/index.css');
@@ -172,6 +175,10 @@
 //  ВПИШИ СВОИ ДАННЫЕ НИЖЕ
 // ============================================================
 
+// Версия сайта — меняй это число после обновлений файлов.
+// Это помогает браузеру считать изменённые локальные ресурсы новой версией.
+const SITE_VERSION = "2";
+
 // Имя на сайте
 const MY_NAME = "MrNevil";
 
@@ -179,7 +186,7 @@ const MY_NAME = "MrNevil";
 const MY_HINT = "aboba";
 
 // Ссылка на аватарку (оставь пустым "" для автоматической генерации)
-const MY_AVATAR = "avatar.png";
+const MY_AVATAR = "avatar.png?v=" + SITE_VERSION;
 
 // Ссылки на соцсети (оставь пустым "" если не нужна)
 const MY_LINKS = {
@@ -198,6 +205,9 @@ const MY_LINKS = {
 // ============================================================
 //  КОНЕЦ БЛОКА С ДАННЫМИ
 // ============================================================
+
+// Версия, загруженная браузером
+console.log("MrNevil site version:", SITE_VERSION);
 
 // Overlay
 const overlay = document.getElementById('overlay');
@@ -293,5 +303,4 @@ render();
 </body>
 </html>
 ```
-
 
