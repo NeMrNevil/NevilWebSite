@@ -152,31 +152,191 @@
   }
 
 /* ===== MUSIC CONTROL ===== */
-.sound-button{
+.sound-control{
   position:fixed;
-  right:20px;
-  bottom:20px;
-  width:50px;
-  height:50px;
-  border:1px solid rgba(255,255,255,.2);
+  top:20px;
+  left:20px;
+  z-index:9999;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.sound-button{
+  width:44px;
+  height:44px;
+  border:1px solid rgba(255,255,255,.18);
   border-radius:50%;
   background:rgba(0,0,0,.55);
   backdrop-filter:blur(10px);
   color:#fff;
-  font-size:22px;
+  font-size:20px;
   cursor:pointer;
   display:flex;
   align-items:center;
   justify-content:center;
   transition:.2s ease;
-  z-index:9999;
 }
-.sound-button:hover{transform:scale(1.1);background:rgba(255,255,255,.12)}
-.sound-button:active{transform:scale(.95)}
+.sound-button:hover{
+  background:rgba(255,255,255,.12);
+  transform:scale(1.06);
+}
+.volume-wrap{
+  width:0;
+  overflow:hidden;
+  opacity:0;
+  transform:translateX(-6px);
+  transition:width .25s ease, opacity .2s ease, transform .25s ease;
+}
+.sound-control:hover .volume-wrap,
+.sound-control:focus-within .volume-wrap{
+  width:120px;
+  opacity:1;
+  transform:translateX(0);
+}
+.volume-slider{
+  width:120px;
+  height:4px;
+  appearance:none;
+  -webkit-appearance:none;
+  border-radius:10px;
+  background:rgba(255,255,255,.22);
+  outline:none;
+  cursor:pointer;
+}
+.volume-slider::-webkit-slider-thumb{
+  appearance:none;
+  -webkit-appearance:none;
+  width:13px;
+  height:13px;
+  border-radius:50%;
+  background:#fff;
+  cursor:pointer;
+}
+.volume-slider::-moz-range-thumb{
+  width:13px;
+  height:13px;
+  border:0;
+  border-radius:50%;
+  background:#fff;
+  cursor:pointer;
+}
+
+
+/* === Extra visual effects === */
+
+/* 1. Smooth page entrance */
+body .card{
+  opacity:0;
+  transform:translate(-50%, calc(-50% + 22px)) scale(.96);
+  transition:opacity .8s ease, transform .9s cubic-bezier(.2,.8,.2,1);
+}
+body.page-ready .card{
+  opacity:1;
+  transform:translate(-50%, -50%) scale(1);
+}
+body.page-ready #avatar{
+  animation: avatarIntro .9s cubic-bezier(.2,.8,.2,1) .15s both;
+}
+body.page-ready .socials a{
+  animation: socialIntro .55s cubic-bezier(.2,.8,.2,1) both;
+}
+body.page-ready .socials a:nth-child(1){animation-delay:.25s}
+body.page-ready .socials a:nth-child(2){animation-delay:.30s}
+body.page-ready .socials a:nth-child(3){animation-delay:.35s}
+body.page-ready .socials a:nth-child(4){animation-delay:.40s}
+body.page-ready .socials a:nth-child(5){animation-delay:.45s}
+body.page-ready .socials a:nth-child(6){animation-delay:.50s}
+body.page-ready .socials a:nth-child(7){animation-delay:.55s}
+body.page-ready .socials a:nth-child(8){animation-delay:.60s}
+body.page-ready .socials a:nth-child(9){animation-delay:.65s}
+body.page-ready .socials a:nth-child(10){animation-delay:.70s}
+
+@keyframes avatarIntro{
+  from{opacity:0; transform:scale(.72) rotate(-8deg)}
+  to{opacity:1; transform:scale(1) rotate(0)}
+}
+@keyframes socialIntro{
+  from{opacity:0; transform:translateY(12px)}
+  to{opacity:1; transform:translateY(0)}
+}
+
+/* 2. Full-screen interactive particle layer */
+#interactiveParticles{
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100%;
+  z-index:-1;
+  pointer-events:none;
+}
+
+/* Card: slightly transparent with background blur */
+.card{
+  background:rgba(0,0,0,.12) !important;
+  border:1px solid rgba(255,255,255,.08) !important;
+  box-shadow:0 18px 55px rgba(0,0,0,.28) !important;
+  backdrop-filter:blur(32px) saturate(110%);
+  -webkit-backdrop-filter:blur(32px) saturate(110%);
+}
+
+/* 5. Social hover effects */
+.socials a{
+  position:relative;
+  overflow:hidden;
+  transition:
+    transform .25s ease,
+    background .25s ease,
+    border-color .25s ease,
+    box-shadow .25s ease,
+    filter .25s ease;
+}
+.socials a::after{
+  content:"";
+  position:absolute;
+  width:70px;
+  height:70px;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%) scale(0);
+  border-radius:50%;
+  background:rgba(255,255,255,.12);
+  filter:blur(12px);
+  transition:transform .35s ease;
+  pointer-events:none;
+}
+.socials a:hover{
+  transform:translateY(-4px) scale(1.07);
+  background:rgba(255,255,255,.10) !important;
+  border-color:rgba(255,255,255,.28) !important;
+  box-shadow:0 10px 30px rgba(0,0,0,.35), 0 0 22px rgba(255,255,255,.08);
+  filter:brightness(1.18);
+}
+.socials a:hover::after{
+  transform:translate(-50%,-50%) scale(1);
+}
+.socials a:hover i,
+.socials a:hover svg,
+.socials a:hover img{
+  transform:scale(1.12);
+  transition:transform .25s ease;
+}
+.socials a:active{
+  transform:translateY(-1px) scale(.98);
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce){
+  *, *::before, *::after{
+    animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;
+  }
+}
 
 </style>
 </head>
 <body>
+<canvas id="interactiveParticles"></canvas>
 
 <div class="overlay" id="overlay">
   <span class="overlay-text">click to enter</span>
@@ -210,43 +370,97 @@ overlay.addEventListener('click', () => {
   overlay.classList.add('hidden');
 });
 
-// Canvas background
+// Canvas background — animated particles across the whole page
 const canvas = document.getElementById('bg');
 const ctx = canvas.getContext('2d');
 let w, h, time = 0;
+let particles = [];
+
 function resize() {
   w = canvas.width = window.innerWidth;
   h = canvas.height = window.innerHeight;
+  const count = Math.min(180, Math.max(70, Math.floor((w * h) / 12000)));
+  particles = Array.from({ length: count }, () => ({
+    x: Math.random() * w,
+    y: Math.random() * h,
+    vx: (Math.random() - 0.5) * 0.35,
+    vy: (Math.random() - 0.5) * 0.35,
+    r: Math.random() * 1.8 + 0.4,
+    a: Math.random() * 0.6 + 0.15,
+    phase: Math.random() * Math.PI * 2
+  }));
 }
 resize();
 window.addEventListener('resize', resize);
 
 function draw() {
+  time += 0.006;
   ctx.clearRect(0, 0, w, h);
-  time += 0.003;
-  const cx = w / 2, cy = h / 2;
+
+  // Soft moving glows filling the entire viewport
+  const glows = [
+    { x: w * 0.18 + Math.sin(time * 0.7) * w * 0.08, y: h * 0.25 + Math.cos(time) * h * 0.08, r: Math.max(w,h) * 0.34, a: 0.055 },
+    { x: w * 0.82 + Math.cos(time * 0.55) * w * 0.09, y: h * 0.72 + Math.sin(time * 0.8) * h * 0.08, r: Math.max(w,h) * 0.38, a: 0.045 },
+    { x: w * 0.52 + Math.sin(time * 0.35) * w * 0.12, y: h * 0.48 + Math.cos(time * 0.6) * h * 0.12, r: Math.max(w,h) * 0.28, a: 0.035 }
+  ];
+
+  glows.forEach(g => {
+    const grad = ctx.createRadialGradient(g.x, g.y, 0, g.x, g.y, g.r);
+    grad.addColorStop(0, `rgba(255,255,255,${g.a})`);
+    grad.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, w, h);
+  });
+
+  // Floating particles over the whole screen
+  particles.forEach(p => {
+    p.x += p.vx;
+    p.y += p.vy;
+    if (p.x < -10) p.x = w + 10;
+    if (p.x > w + 10) p.x = -10;
+    if (p.y < -10) p.y = h + 10;
+    if (p.y > h + 10) p.y = -10;
+
+    const pulse = 0.55 + Math.sin(time * 1.5 + p.phase) * 0.45;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255,255,255,${p.a * pulse})`;
+    ctx.fill();
+  });
+
+  // Thin animated connections between nearby particles
+  for (let i = 0; i < particles.length; i++) {
+    for (let j = i + 1; j < particles.length; j++) {
+      const a = particles[i], b = particles[j];
+      const dx = a.x - b.x, dy = a.y - b.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 125) {
+        const alpha = (1 - dist / 125) * 0.10;
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(b.x, b.y);
+        ctx.strokeStyle = `rgba(255,255,255,${alpha})`;
+        ctx.lineWidth = 0.7;
+        ctx.stroke();
+      }
+    }
+  }
+
+  // Large slow-moving waves
   for (let i = 0; i < 4; i++) {
     ctx.beginPath();
-    ctx.strokeStyle = `rgba(255,255,255,${0.04 + i * 0.015})`;
-    ctx.lineWidth = 1.5;
-    const ox = Math.sin(time + i * 1.5) * 80;
-    const oy = Math.cos(time * 0.7 + i * 2) * 60;
-    const s = 0.6 + i * 0.15;
-    ctx.moveTo(cx - 300*s + ox, cy + 100*s + oy);
-    ctx.bezierCurveTo(cx - 100*s + ox, cy - 200*s + oy, cx + 200*s + ox, cy - 150*s + oy, cx + 280*s + ox, cy - 80*s + oy);
-    ctx.bezierCurveTo(cx + 350*s + ox, cy + 50*s + oy, cx + 100*s + ox, cy + 200*s + oy, cx - 200*s + ox, cy + 150*s + oy);
-    ctx.bezierCurveTo(cx - 350*s + ox, cy + 100*s + oy, cx - 300*s + ox, cy + 100*s + oy, cx - 300*s + ox, cy + 100*s + oy);
+    ctx.strokeStyle = `rgba(255,255,255,${0.025 + i * 0.012})`;
+    ctx.lineWidth = 1.2;
+    for (let x = -80; x <= w + 80; x += 8) {
+      const y = h * (0.18 + i * 0.22)
+        + Math.sin(x * 0.004 + time * (0.8 + i * 0.12) + i) * (45 + i * 18)
+        + Math.sin(x * 0.009 - time * 0.6) * 22;
+      if (x === -80) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
     ctx.stroke();
   }
-  ctx.beginPath();
-  ctx.strokeStyle = 'rgba(255,255,255,0.06)';
-  ctx.lineWidth = 2;
-  ctx.moveTo(cx - 400, cy + 50);
-  for (let x = -400; x <= 400; x += 5) {
-    const y = Math.sin(x * 0.008 + time * 2) * 120 + Math.cos(x * 0.012 + time) * 60;
-    ctx.lineTo(cx + x, cy + y);
-  }
-  ctx.stroke();
+
   requestAnimationFrame(draw);
 }
 draw();
@@ -296,47 +510,197 @@ function render() {
 </script>
 
 <!-- Фоновая музыка -->
-<audio id="bgMusic" loop preload="auto">
+<audio id="bgMusic" preload="auto">
   <source src="music.mp3" type="audio/mpeg">
 </audio>
 
-<button id="soundButton" class="sound-button" aria-label="Включить или выключить музыку">🔊</button>
+<div class="sound-control">
+  <button id="soundButton" class="sound-button" aria-label="Включить или выключить музыку">🔊</button>
+  <div class="volume-wrap">
+    <input id="volumeSlider" class="volume-slider" type="range" min="0" max="1" step="0.01" value="0.30" aria-label="Громкость">
+  </div>
+</div>
 
 <script>
 (function () {
   const music = document.getElementById("bgMusic");
   const button = document.getElementById("soundButton");
+  const slider = document.getElementById("volumeSlider");
 
-  if (!music || !button) return;
+  if (!music || !button || !slider) return;
 
   music.volume = 0.30;
-  let started = false;
 
-  function startMusic() {
-    if (started) return;
-
-    music.play().then(() => {
-      started = true;
+  function updateIcon() {
+    if (music.paused || music.volume === 0) {
+      button.textContent = "🔇";
+    } else if (music.volume < 0.5) {
+      button.textContent = "🔉";
+    } else {
       button.textContent = "🔊";
-    }).catch(() => {});
+    }
   }
 
-  // Браузер разрешает звук после взаимодействия пользователя.
+  function startMusic() {
+    music.play().catch(() => {});
+    updateIcon();
+  }
+
+  // Музыка запускается после клика по "click to enter".
+  document.getElementById("overlay").addEventListener("click", startMusic);
+
+  // Запасной вариант: первый клик в любом месте.
   document.addEventListener("click", startMusic, { once: true });
 
   button.addEventListener("click", function (event) {
     event.stopPropagation();
 
     if (music.paused) {
-      music.play().then(() => {
-        started = true;
-        button.textContent = "🔊";
-      }).catch(() => {});
+      music.play().catch(() => {});
     } else {
       music.pause();
+    }
+
+    updateIcon();
+  });
+
+  slider.addEventListener("input", function () {
+    music.volume = Number(this.value);
+
+    if (music.volume > 0 && music.paused === false) {
+      button.textContent = music.volume < 0.5 ? "🔉" : "🔊";
+    } else if (music.volume === 0) {
       button.textContent = "🔇";
     }
   });
+
+  music.addEventListener("ended", function () {
+    // Без loop музыка просто заканчивается.
+    button.textContent = "🔇";
+  });
+
+  updateIcon();
+})();
+</script>
+
+
+<script>
+(function(){
+  // 1. Entrance animation
+  function revealPage(){
+    document.body.classList.add("page-ready");
+  }
+
+  const overlay = document.getElementById("overlay");
+  if (overlay) {
+    overlay.addEventListener("click", function(){
+      setTimeout(revealPage, 120);
+    }, {once:true});
+  } else {
+    requestAnimationFrame(revealPage);
+  }
+
+  // 2. Interactive particles: cursor repels nearby particles and attracts lines.
+  const canvas = document.getElementById("interactiveParticles");
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d");
+  let w = 0, h = 0, dpr = 1;
+  let particles = [];
+  const mouse = {x:-9999, y:-9999, active:false};
+
+  function resize(){
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    w = window.innerWidth;
+    h = window.innerHeight;
+    canvas.width = Math.floor(w*dpr);
+    canvas.height = Math.floor(h*dpr);
+    canvas.style.width = w + "px";
+    canvas.style.height = h + "px";
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+
+    const count = Math.min(115, Math.max(45, Math.floor((w*h)/15000)));
+    particles = Array.from({length:count}, () => ({
+      x:Math.random()*w,
+      y:Math.random()*h,
+      vx:(Math.random()-.5)*.35,
+      vy:(Math.random()-.5)*.35,
+      r:Math.random()*1.5+.6
+    }));
+  }
+
+  function move(e){
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+    mouse.active = true;
+  }
+  window.addEventListener("resize", resize);
+  window.addEventListener("pointermove", move, {passive:true});
+  window.addEventListener("pointerleave", ()=>mouse.active=false);
+
+  function frame(){
+    ctx.clearRect(0,0,w,h);
+
+    for(let i=0;i<particles.length;i++){
+      const p = particles[i];
+
+      p.x += p.vx;
+      p.y += p.vy;
+
+      if(p.x < -20) p.x = w+20;
+      if(p.x > w+20) p.x = -20;
+      if(p.y < -20) p.y = h+20;
+      if(p.y > h+20) p.y = -20;
+
+      if(mouse.active){
+        const dx = p.x-mouse.x;
+        const dy = p.y-mouse.y;
+        const dist = Math.hypot(dx,dy);
+        const radius = 125;
+        if(dist < radius && dist > 0){
+          const force = (1-dist/radius) * .55;
+          p.x += (dx/dist)*force;
+          p.y += (dy/dist)*force;
+        }
+      }
+
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle = "rgba(255,255,255,.62)";
+      ctx.fill();
+    }
+
+    // Connecting lines
+    for(let i=0;i<particles.length;i++){
+      for(let j=i+1;j<particles.length;j++){
+        const a=particles[i], b=particles[j];
+        const dx=a.x-b.x, dy=a.y-b.y;
+        const dist=Math.hypot(dx,dy);
+        if(dist < 115){
+          const alpha=(1-dist/115)*.14;
+          ctx.strokeStyle=`rgba(255,255,255,${alpha})`;
+          ctx.lineWidth=1;
+          ctx.beginPath();
+          ctx.moveTo(a.x,a.y);
+          ctx.lineTo(b.x,b.y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    // Soft cursor glow
+    if(mouse.active){
+      const g=ctx.createRadialGradient(mouse.x,mouse.y,0,mouse.x,mouse.y,150);
+      g.addColorStop(0,"rgba(255,255,255,.075)");
+      g.addColorStop(1,"rgba(255,255,255,0)");
+      ctx.fillStyle=g;
+      ctx.fillRect(mouse.x-150,mouse.y-150,300,300);
+    }
+
+    requestAnimationFrame(frame);
+  }
+
+  resize();
+  frame();
 })();
 </script>
 
