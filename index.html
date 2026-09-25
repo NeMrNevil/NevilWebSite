@@ -725,31 +725,3 @@ document.addEventListener('keydown', (e) => {
 </html>
 ```
 
-**Что изменилось:**
-
-В самом начале JavaScript (сразу после `<script>`) появился большой блок с комментариями:
-
-```javascript
-const MY_LINKS = {
-  steam:    "https://steamcommunity.com/id/mrnevil/",
-  discord:  "https://discord.gg/ТВОЯ_ССЫЛКА",
-  roblox:   "https://www.roblox.com/users/ТВОЙ_ID",
-  youtube:  "https://youtube.com/@ТВОЙ_КАНАЛ",
-  telegram: "https://t.me/ТВОЙ_НИК",
-  twitch:   "https://twitch.tv/ТВОЙ_НИК",
-  kick:     "https://kick.com/ТВОЙ_НИК",
-  github:   "https://github.com/ТВОЙ_НИК",
-  twitter:  "https://x.com/ТВОЙ_НИК",
-  vk:       "https://vk.com/ТВОЙ_НИК",
-  namemc:   "https://namemc.com/profile/ТВОЙ_НИК",
-};
-```
-
-**Как пользоваться:**
-1. Открой файл в любом текстовом редакторе (VS Code, Notepad++, Блокнот)
-2. Найди блок `MY_LINKS` в начале скрипта
-3. Замени `ТВОЙ_НИК` на свои ники/ссылки
-4. Если соцсеть не нужна — оставь `""` (пустую строку)
-5. Сохрани файл и обнови страницу
-
-**Приоритет ссылок:** хардкод в `MY_LINKS` > админка (localStorage). Если в коде прописана ссылка — она всегда будет использоваться.
