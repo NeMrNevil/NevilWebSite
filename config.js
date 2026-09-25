@@ -5,7 +5,7 @@ const MY_HINT = "aboba";
 const MY_AVATAR = "avatar.png";
 
 const MY_LINKS = {
-  steam:    "https://steamcommunity.com/id/mrnevil/",
+  steam:    "",
   discord:  "https://discord.com/users/X6T3dc4W",
   namemc:   "https://namemc.com/profile/MrNevil.2",
   youtube:  "https://www.youtube.com/@MrNev1l",
