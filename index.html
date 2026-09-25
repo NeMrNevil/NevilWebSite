@@ -175,10 +175,6 @@
 //  ВПИШИ СВОИ ДАННЫЕ НИЖЕ
 // ============================================================
 
-// Версия сайта — меняй это число после обновлений файлов.
-// Это помогает браузеру считать изменённые локальные ресурсы новой версией.
-const SITE_VERSION = "2";
-
 // Имя на сайте
 const MY_NAME = "MrNevil";
 
@@ -186,7 +182,7 @@ const MY_NAME = "MrNevil";
 const MY_HINT = "aboba";
 
 // Ссылка на аватарку (оставь пустым "" для автоматической генерации)
-const MY_AVATAR = "avatar.png?v=" + SITE_VERSION;
+const MY_AVATAR = "avatar.png";
 
 // Ссылки на соцсети (оставь пустым "" если не нужна)
 const MY_LINKS = {
@@ -205,9 +201,6 @@ const MY_LINKS = {
 // ============================================================
 //  КОНЕЦ БЛОКА С ДАННЫМИ
 // ============================================================
-
-// Версия, загруженная браузером
-console.log("MrNevil site version:", SITE_VERSION);
 
 // Overlay
 const overlay = document.getElementById('overlay');
@@ -278,7 +271,8 @@ function render() {
 
   const avatarEl = document.getElementById('avatar');
   if (MY_AVATAR) {
-    avatarEl.src = MY_AVATAR;
+    // Добавляем уникальный параметр, чтобы браузер не использовал старый кэш аватарки.
+    avatarEl.src = MY_AVATAR + "?v=" + Date.now();
   } else {
     avatarEl.src = 'https://api.dicebear.com/7.x/avataaars/svg?seed=' + encodeURIComponent(MY_NAME) + '&backgroundColor=b6e3f4';
   }
