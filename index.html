@@ -171,76 +171,14 @@
 </div>
 
 <script>
-// ============================================================
-//  ВПИШИ СВОИ ДАННЫЕ НИЖЕ
-// ============================================================
-
-// Версия сайта.
-// Увеличивай это число после изменения index.html/ссылок.
-const SITE_VERSION = "3";
-
-// Имя на сайте
-const MY_NAME = "MrNevil";
-
-// Описание под именем (оставь пустым "" если не нужно)
-const MY_HINT = "aboba";
-
-// Ссылка на аватарку (оставь пустым "" для автоматической генерации)
-const MY_AVATAR = "avatar.png";
-
-// Ссылки на соцсети (оставь пустым "" если не нужна)
-const MY_LINKS = {
-  steam:    "",
-  discord:  "https://discord.com/users/X6T3dc4W",
-  namemc:   "https://namemc.com/profile/MrNevil.2",
-  youtube:  "https://www.youtube.com/@MrNev1l",
-  telegram: "https://t.me/nevil_tganal",
-  twitch:   "https://www.twitch.tv/mrnevil_",
-  kick:     "https://kick.com/ТВОЙ_НИК",
-  github:   "https://github.com/ТВОЙ_НИК",
-  twitter:  "https://x.com/ТВОЙ_НИК",
-  vk:       "https://vk.com/ТВОЙ_НИК",
-};
-
-// ============================================================
-//  КОНЕЦ БЛОКА С ДАННЫМИ
-// ============================================================
-
-// Проверка обновления index.html.
-// GitHub Pages может некоторое время отдавать старую копию.
-// Если сервер уже отдаёт другую версию HTML, страница перезагрузится сама.
-async function checkForUpdatedIndex() {
-  try {
-    const currentUrl = window.location.href.split("#")[0];
-    const response = await fetch(currentUrl + (currentUrl.includes("?") ? "&" : "?") + "_check=" + Date.now(), {
-      cache: "no-store",
-      headers: { "Cache-Control": "no-cache" }
-    });
-
-    if (!response.ok) return;
-
-    const latestHtml = await response.text();
-    const currentHtml = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
-
-    // Проверяем именно версию, указанную в коде, а не динамические значения.
-    const latestVersion = latestHtml.match(/const\\s+SITE_VERSION\\s*=\\s*["']([^"']+)["']/);
-    const currentVersion = currentHtml.match(/const\\s+SITE_VERSION\\s*=\\s*["']([^"']+)["']/);
-
-    if (latestVersion && currentVersion && latestVersion[1] !== currentVersion[1]) {
-      const reloadUrl = currentUrl + (currentUrl.includes("?") ? "&" : "?") + "_reload=" + Date.now();
-      window.location.replace(reloadUrl);
-    }
-  } catch (error) {
-    // Если проверка недоступна, сайт продолжает работать как обычно.
-    console.debug("Update check skipped:", error);
-  }
-}
-
-// Проверяем после загрузки страницы.
-setTimeout(checkForUpdatedIndex, 1500);
-
-// Повторно проверяем через 30 секунд, если страница долго открыта.
-setInterval(checkForUpdatedIndex, 30000);
+// Настройки загружаются из config.js.
+const CONFIG_URL = './config.js?v=' + Date.now();
+const configScript = document.createElement('script');
+configScript.src = CONFIG_URL;
+configScript.async = false;
+configScript.onload = () => render();
+configScript.onerror = () => console.error('Не удалось загрузить config.js');
+document.head.appendChild(configScript);
 
 // Overlay
 const overlay = document.getElementById('overlay');
@@ -311,7 +249,6 @@ function render() {
 
   const avatarEl = document.getElementById('avatar');
   if (MY_AVATAR) {
-    // Новый URL при каждом открытии страницы — старая аватарка не берётся из кэша.
     avatarEl.src = MY_AVATAR + "?v=" + Date.now();
   } else {
     avatarEl.src = 'https://api.dicebear.com/7.x/avataaars/svg?seed=' + encodeURIComponent(MY_NAME) + '&backgroundColor=b6e3f4';
@@ -323,10 +260,7 @@ function render() {
     const link = MY_LINKS[s.id];
     if (!link || link.includes("ТВОЙ_")) return;
     const a = document.createElement('a');
-    // Ссылка получает текущую версию сайта.
-    // Для внешних сервисов параметр не меняет адрес назначения после перехода,
-    // но заставляет браузер не использовать старое значение href из кэша страницы.
-    a.href = link + (link.includes("?") ? "&" : "?") + "_site=" + SITE_VERSION;
+    a.href = link;
     a.title = s.name;
     a.target = '_blank';
     a.rel = 'noopener';
@@ -335,7 +269,6 @@ function render() {
   });
 }
 
-render();
 </script>
 </body>
 </html>
