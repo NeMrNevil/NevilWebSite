@@ -420,7 +420,7 @@
 <div class="admin-overlay" id="adminOverlay">
   <div class="admin-panel">
     <div class="admin-header">
-      <div class="admin-title">️ Панель администратора</div>
+      <div class="admin-title">⚙️ Панель администратора</div>
       <button class="admin-close" id="adminClose">×</button>
     </div>
 
@@ -449,6 +449,27 @@
 </div>
 
 <script>
+// ============================================================
+// 👇👇 ВПИШИ СЮДА СВОИ ССЫЛКИ НА СОЦСЕТИ 👇👇
+// Оставь пустую строку "" если соцсеть не нужна
+// ============================================================
+const MY_LINKS = {
+  steam:    "https://steamcommunity.com/id/ТВОЙ_НИК",
+  discord:  "https://discord.gg/ТВОЯ_ССЫЛКА",
+  roblox:   "https://www.roblox.com/users/ТВОЙ_ID",
+  youtube:  "https://youtube.com/@ТВОЙ_КАНАЛ",
+  telegram: "https://t.me/ТВОЙ_НИК",
+  twitch:   "https://twitch.tv/ТВОЙ_НИК",
+  kick:     "https://kick.com/ТВОЙ_НИК",
+  github:   "https://github.com/ТВОЙ_НИК",
+  twitter:  "https://x.com/ТВОЙ_НИК",
+  vk:       "https://vk.com/ТВОЙ_НИК",
+  namemc:   "https://namemc.com/profile/ТВОЙ_НИК",
+};
+// ============================================================
+// 👆👆 КОНЕЦ БЛОКА ССЫЛОК 👆👆
+// ============================================================
+
 // ===== Overlay =====
 const overlay = document.getElementById('overlay');
 overlay.addEventListener('click', () => {
@@ -504,10 +525,11 @@ const SOCIALS = [
   { id: 'youtube', name: 'YouTube', icon: '<path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>' },
   { id: 'telegram',name: 'Telegram',icon: '<path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>' },
   { id: 'twitch',  name: 'Twitch',  icon: '<path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/>' },
-{ id: 'namemc',  name: 'NameMC',  icon: '<path d="M0 0v24h24V0Zm4.8 4.8H16V8h3.2v11.2H16V8H8v11.2H4.8V8Z"/>' },
+  { id: 'kick',    name: 'Kick',    icon: '<path d="M1.125 0C.502 0 0 .502 0 1.125v21.75C0 23.498.502 24 1.125 24h21.75c.623 0 1.125-.502 1.125-1.125V1.125C24 .502 23.498 0 22.875 0zm17.363 9.75c.612 0 1.154.092 1.627.276a3.35 3.35 0 0 1 1.226.813c.346.356.612.797.797 1.322.184.525.276 1.116.276 1.773 0 .672-.092 1.27-.276 1.794a3.32 3.32 0 0 1-.797 1.306 3.37 3.37 0 0 1-1.226.804c-.473.184-1.015.276-1.627.276h-2.597v-8.364zm-4.739 0h2.597v3.548l3.024-3.548h3.024l-3.3 3.837 3.548 4.527h-3.024l-2.87-3.69v3.69h-2.999zm-4.739 0h2.597v8.364H9.01zm-4.739 0h2.597v8.364H4.271z"/>' },
   { id: 'github',  name: 'GitHub',  icon: '<path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>' },
   { id: 'twitter', name: 'X / Twitter', icon: '<path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>' },
   { id: 'vk',      name: 'VK',      icon: '<path d="M15.684 0H8.316C1.592 0 0 1.592 0 8.316v7.368C0 22.408 1.592 24 8.316 24h7.368C22.408 24 24 22.408 24 15.684V8.316C24 1.592 22.391 0 15.684 0zm3.692 17.123h-1.744c-.66 0-.862-.525-2.049-1.714-1.033-1.01-1.49-1.135-1.744-1.135-.356 0-.458.102-.458.593v1.575c0 .424-.135.678-1.253.678-1.846 0-3.896-1.12-5.339-3.202-2.17-3.048-2.763-5.339-2.763-5.814 0-.254.102-.491.593-.491h1.744c.44 0 .61.203.78.678.862 2.49 2.303 4.675 2.896 4.675.22 0 .322-.102.322-.66V9.721c-.068-1.186-.695-1.287-.695-1.71 0-.203.17-.407.44-.407h2.744c.373 0 .508.203.508.643v3.473c0 .372.17.508.271.508.22 0 .407-.136.813-.542 1.253-1.406 2.15-3.574 2.15-3.574.119-.254.322-.491.763-.491h1.744c.525 0 .644.27.525.643-.22 1.017-2.354 4.031-2.354 4.031-.186.305-.254.44 0 .78.186.254.796.779 1.203 1.253.745.847 1.32 1.558 1.473 2.049.17.49-.085.744-.576.744z"/>' },
+  { id: 'namemc',  name: 'NameMC',  icon: '<path d="M0 0v24h24V0Zm4.8 4.8H16V8h3.2v11.2H16V8H8v11.2H4.8V8Z"/>' },
 ];
 
 // ===== Data =====
@@ -522,7 +544,6 @@ function loadData() {
   try {
     const saved = JSON.parse(localStorage.getItem('siteData'));
     if (saved) {
-      // merge with defaults so new fields appear
       return { ...DEFAULT_DATA, ...saved };
     }
     return DEFAULT_DATA;
@@ -533,8 +554,27 @@ function saveData(data) {
   localStorage.setItem('siteData', JSON.stringify(data));
 }
 
+// Получаем ссылки: приоритет у MY_LINKS (хардкод), потом localStorage
+function getLinks() {
+  const saved = loadData();
+  const savedLinks = saved.links || {};
+  const merged = {};
+  SOCIALS.forEach(s => {
+    // Если в MY_LINKS есть реальная ссылка (не плейсхолдер) — используем её
+    const myLink = MY_LINKS[s.id];
+    if (myLink && myLink !== "" && !myLink.includes("ТВОЙ_")) {
+      merged[s.id] = myLink;
+    } else if (savedLinks[s.id]) {
+      merged[s.id] = savedLinks[s.id];
+    }
+  });
+  return merged;
+}
+
 function render() {
   const data = loadData();
+  const links = getLinks();
+
   document.getElementById('displayName').textContent = data.name || 'MrNevil';
   document.getElementById('displayHint').textContent = data.hint || 'click to enter...';
 
@@ -548,7 +588,7 @@ function render() {
   const socialsEl = document.getElementById('socials');
   socialsEl.innerHTML = '';
   SOCIALS.forEach(s => {
-    const link = data.links && data.links[s.id];
+    const link = links[s.id];
     if (!link) return;
     const a = document.createElement('a');
     a.href = link;
@@ -620,13 +660,15 @@ const adminSocials = document.getElementById('adminSocials');
 
 function openAdminPanel() {
   const data = loadData();
+  const links = getLinks();
+
   adminName.value = data.name || '';
   adminHint.value = data.hint || '';
   adminAvatar.value = data.avatar || '';
 
   adminSocials.innerHTML = '';
   SOCIALS.forEach(s => {
-    const val = (data.links && data.links[s.id]) || '';
+    const val = links[s.id] || '';
     const field = document.createElement('div');
     field.className = 'admin-field';
     field.innerHTML = `
@@ -683,12 +725,31 @@ document.addEventListener('keydown', (e) => {
 </html>
 ```
 
-**Что добавлено:**
+**Что изменилось:**
 
-В админке появилось новое поле **"Описание / подсказка под аватаром"** — туда можно вписать любой текст (например, "developer", "gamer", "welcome to my world" и т.д.).
+В самом начале JavaScript (сразу после `<script>`) появился большой блок с комментариями:
 
-Текст сохраняется в `localStorage` и отображается вместо "click to enter..." на главной странице.
+```javascript
+const MY_LINKS = {
+  steam:    "https://steamcommunity.com/id/mrnevil/",
+  discord:  "https://discord.gg/ТВОЯ_ССЫЛКА",
+  roblox:   "https://www.roblox.com/users/ТВОЙ_ID",
+  youtube:  "https://youtube.com/@ТВОЙ_КАНАЛ",
+  telegram: "https://t.me/ТВОЙ_НИК",
+  twitch:   "https://twitch.tv/ТВОЙ_НИК",
+  kick:     "https://kick.com/ТВОЙ_НИК",
+  github:   "https://github.com/ТВОЙ_НИК",
+  twitter:  "https://x.com/ТВОЙ_НИК",
+  vk:       "https://vk.com/ТВОЙ_НИК",
+  namemc:   "https://namemc.com/profile/ТВОЙ_НИК",
+};
+```
 
- Если поле оставить пустым — будет показан дефолтный текст "click to enter...".
+**Как пользоваться:**
+1. Открой файл в любом текстовом редакторе (VS Code, Notepad++, Блокнот)
+2. Найди блок `MY_LINKS` в начале скрипта
+3. Замени `ТВОЙ_НИК` на свои ники/ссылки
+4. Если соцсеть не нужна — оставь `""` (пустую строку)
+5. Сохрани файл и обнови страницу
 
-Всё остальное работает как раньше: 3 клика по имени или `Ctrl+Shift+A` для входа в админку, пароль `admin`.
+**Приоритет ссылок:** хардкод в `MY_LINKS` > админка (localStorage). Если в коде прописана ссылка — она всегда будет использоваться.
