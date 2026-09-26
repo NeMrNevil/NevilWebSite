@@ -18,7 +18,103 @@
     font-family: 'Inter', sans-serif;
     overflow: hidden;
     cursor: default;
+    transition: background .5s ease;
+    perspective: 1400px;
+    border: none;
+    outline: none;
   }
+
+  /* ============================================================
+     СВЕТЛАЯ ТЕМА
+     ============================================================ */
+  body.light-theme {
+    background: #eef0f4;
+  }
+  body.light-theme .card {
+    background: rgba(255,255,255,.75) !important;
+    border: 1px solid rgba(0,0,0,.08) !important;
+    box-shadow: 0 18px 55px rgba(0,0,0,.12) !important;
+    backdrop-filter: blur(32px) saturate(110%);
+    -webkit-backdrop-filter: blur(32px) saturate(110%);
+  }
+  body.light-theme .name { color: #111; }
+  body.light-theme .name:hover { color: rgba(0,0,0,.7); }
+  body.light-theme .hint { color: rgba(0,0,0,.4); }
+  body.light-theme .socials a {
+    background: rgba(0,0,0,.05);
+    border-color: rgba(0,0,0,.08);
+  }
+  body.light-theme .socials a svg { fill: rgba(0,0,0,.7); }
+  body.light-theme .socials a:hover {
+    background: rgba(0,0,0,.10) !important;
+    border-color: rgba(0,0,0,.22) !important;
+  }
+  body.light-theme .socials a:hover svg { fill: #000; }
+  body.light-theme .avatar-wrap { border-color: rgba(0,0,0,.1); }
+
+  body.light-theme .sound-control,
+  body.light-theme .roulette-trigger,
+  body.light-theme .theme-toggle {
+    background: rgba(255,255,255,.7);
+    border-color: rgba(0,0,0,.12);
+    color: #111;
+    box-shadow: 0 6px 20px rgba(0,0,0,.12);
+  }
+  body.light-theme .sound-control:hover,
+  body.light-theme .sound-control:focus-within,
+  body.light-theme .roulette-trigger:hover,
+  body.light-theme .theme-toggle:hover {
+    background: rgba(255,255,255,.95);
+    border-color: rgba(0,0,0,.22);
+    color: #000;
+  }
+  body.light-theme .sound-button { color: #111; }
+  body.light-theme .roulette-trigger svg { fill: rgba(0,0,0,.75); }
+  body.light-theme .volume-slider { background: rgba(0,0,0,.18); }
+  body.light-theme .volume-slider::-webkit-slider-thumb { background: #111; }
+  body.light-theme .volume-slider::-moz-range-thumb { background: #111; }
+
+  body.light-theme .ip-badge {
+    background: rgba(255,255,255,.7);
+    border-color: rgba(0,0,0,.12);
+    color: #111;
+    box-shadow: 0 6px 20px rgba(0,0,0,.12);
+  }
+  body.light-theme .ip-badge .ip-label { color: rgba(0,0,0,.45); }
+  body.light-theme .ip-badge .ip-value { color: #111; }
+  body.light-theme .ip-badge .ip-dot { background: #22c55e; }
+
+  body.light-theme .roulette-panel {
+    background: rgba(238,240,244,.92);
+  }
+  body.light-theme .rp-balance { color: rgba(0,0,0,.55); }
+  body.light-theme .rp-balance b { color: #111; }
+  body.light-theme .rp-table .rp-cell {
+    background: rgba(0,0,0,.04);
+    border-color: rgba(0,0,0,.10);
+    color: #111;
+  }
+  body.light-theme .rp-cell.red { background: rgba(200,50,60,.75); color: #fff; }
+  body.light-theme .rp-cell.black { background: rgba(30,30,36,.9); color: #fff; }
+  body.light-theme .rp-cell.green { background: rgba(30,140,80,.75); color: #fff; }
+  body.light-theme .rp-cell.side { color: rgba(0,0,0,.7); }
+  body.light-theme .rp-cell.bet-red { background: rgba(200,50,60,.75); }
+  body.light-theme .rp-cell.bet-black { background: rgba(30,30,36,.9); }
+  body.light-theme .rp-wheel-result { color: rgba(0,0,0,.5); }
+  body.light-theme .rp-wheel-result b { color: #111; }
+  body.light-theme .rp-spin-btn {
+    background: linear-gradient(180deg, rgba(0,0,0,.08), rgba(0,0,0,.03));
+    border-color: rgba(0,0,0,.15);
+    color: #111;
+  }
+  body.light-theme .rp-spin-btn:hover {
+    background: linear-gradient(180deg, rgba(0,0,0,.14), rgba(0,0,0,.06));
+    border-color: rgba(0,0,0,.3);
+  }
+  body.light-theme .rp-bet-info { color: rgba(0,0,0,.5); }
+  body.light-theme .rp-bet-info b { color: #111; }
+  body.light-theme .rp-footer { color: rgba(0,0,0,.4); }
+  body.light-theme .rp-wheel-pointer { border-top-color: #111; }
 
   canvas#bg {
     position: fixed;
@@ -26,6 +122,13 @@
     width: 100%; height: 100%;
     z-index: 0;
     display: block;
+    border: 0;
+    outline: 0;
+  }
+
+  #interactiveParticles {
+    border: 0;
+    outline: 0;
   }
 
   .card {
@@ -44,8 +147,16 @@
     text-align: center;
     opacity: 0;
     animation: cardIn 0.8s ease 0.3s forwards;
+    transform-style: preserve-3d;
+    will-change: transform;
   }
   @keyframes cardIn { to { opacity: 1; } }
+
+  .card-inner {
+    transform-style: preserve-3d;
+    will-change: transform;
+    transition: transform .12s ease-out;
+  }
 
   .avatar-wrap {
     width: 90px; height: 90px;
@@ -54,6 +165,7 @@
     overflow: hidden;
     border: 2px solid rgba(255,255,255,0.1);
     position: relative;
+    transform: translateZ(40px);
   }
   .avatar-wrap img {
     width: 100%; height: 100%;
@@ -80,6 +192,7 @@
     letter-spacing: 1px;
     margin-bottom: 4px;
     min-height: 16px;
+    transform: translateZ(20px);
   }
 
   .name {
@@ -91,6 +204,7 @@
     cursor: default;
     user-select: none;
     transition: color 0.3s;
+    transform: translateZ(30px);
   }
   .name:hover { color: rgba(255,255,255,0.85); }
 
@@ -100,6 +214,7 @@
     justify-content: center;
     gap: 12px;
     flex-wrap: wrap;
+    transform: translateZ(25px);
   }
   .socials a {
     width: 36px; height: 36px;
@@ -131,6 +246,8 @@
     display: flex; align-items: center; justify-content: center;
     cursor: pointer;
     transition: opacity 0.6s ease, visibility 0.6s ease;
+    border: 0;
+    outline: 0;
   }
   .overlay.hidden {
     opacity: 0;
@@ -195,6 +312,7 @@
   justify-content:center;
   transition:background .2s ease, transform .2s ease;
   border-radius:26px;
+  outline:none;
 }
 .sound-button:hover{
   background:rgba(255,255,255,.10);
@@ -253,6 +371,114 @@
   box-shadow:0 2px 6px rgba(0,0,0,.45);
 }
 
+/* ============================================================
+   THEME TOGGLE
+   ============================================================ */
+.theme-toggle{
+  position:fixed;
+  top:84px;
+  left:20px;
+  z-index:9999;
+  width:52px;
+  height:52px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.18);
+  background:rgba(0,0,0,.55);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  color:#fff;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:background .25s ease, border-color .25s ease,
+             transform .25s ease, box-shadow .25s ease,
+             color .25s ease;
+  box-shadow:0 6px 20px rgba(0,0,0,.35);
+  outline:none;
+}
+.theme-toggle:hover{
+  background:rgba(255,255,255,.12);
+  border-color:rgba(255,255,255,.3);
+  transform:translateY(-2px) scale(1.05);
+}
+.theme-toggle:active{
+  transform:scale(.94);
+}
+.theme-toggle svg{
+  width:22px;
+  height:22px;
+  fill:currentColor;
+  transition:transform .4s cubic-bezier(.2,.8,.2,1), opacity .3s ease;
+}
+.theme-toggle .icon-sun,
+.theme-toggle .icon-moon{
+  position:absolute;
+  transition:transform .4s cubic-bezier(.2,.8,.2,1), opacity .3s ease;
+}
+.theme-toggle .icon-sun{ opacity:1; transform:rotate(0) scale(1); }
+.theme-toggle .icon-moon{ opacity:0; transform:rotate(-90deg) scale(.6); }
+body.light-theme .theme-toggle .icon-sun{ opacity:0; transform:rotate(90deg) scale(.6); }
+body.light-theme .theme-toggle .icon-moon{ opacity:1; transform:rotate(0) scale(1); }
+
+/* ============================================================
+   IP BADGE
+   ============================================================ */
+.ip-badge{
+  position:fixed;
+  top:20px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:9999;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  height:40px;
+  padding:0 18px;
+  border-radius:20px;
+  border:1px solid rgba(255,255,255,.15);
+  background:rgba(0,0,0,.55);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  color:#fff;
+  font-size:13px;
+  letter-spacing:1px;
+  box-shadow:0 6px 20px rgba(0,0,0,.35);
+  transition:background .3s ease, border-color .3s ease, color .3s ease,
+             opacity .4s ease, transform .4s ease;
+  opacity:0;
+  pointer-events:none;
+}
+.ip-badge.show{
+  opacity:1;
+  pointer-events:auto;
+}
+.ip-badge .ip-dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#22c55e;
+  box-shadow:0 0 8px rgba(34,197,94,.8);
+  animation:ipPulse 2s ease-in-out infinite;
+}
+@keyframes ipPulse{
+  0%,100% { opacity:1; transform:scale(1); }
+  50% { opacity:.55; transform:scale(.85); }
+}
+.ip-badge .ip-label{
+  color:rgba(255,255,255,.5);
+  text-transform:uppercase;
+  font-size:10px;
+  letter-spacing:2px;
+  font-weight:500;
+}
+.ip-badge .ip-value{
+  color:#fff;
+  font-weight:600;
+  font-family:'JetBrains Mono', 'SF Mono', Consolas, monospace;
+  letter-spacing:.5px;
+}
+
 
 /* === Extra visual effects === */
 
@@ -298,7 +524,9 @@ body.page-ready .socials a:nth-child(10){animation-delay:.70s}
   height:100%;
   z-index:-1;
   pointer-events:none;
+  transition:opacity .5s ease, transform .4s ease-out;
 }
+body.light-theme #interactiveParticles { opacity: .35; }
 
 .card{
   background:rgba(0,0,0,.12) !important;
@@ -306,6 +534,7 @@ body.page-ready .socials a:nth-child(10){animation-delay:.70s}
   box-shadow:0 18px 55px rgba(0,0,0,.28) !important;
   backdrop-filter:blur(32px) saturate(110%);
   -webkit-backdrop-filter:blur(32px) saturate(110%);
+  transition:background .5s ease, border-color .5s ease, box-shadow .5s ease;
 }
 
 .socials a{
@@ -358,6 +587,7 @@ body.page-ready .socials a:nth-child(10){animation-delay:.70s}
     animation-iteration-count:1 !important;
     transition-duration:.01ms !important;
   }
+  .card-inner { transform: none !important; }
 }
 
 /* ============================================================
@@ -382,6 +612,7 @@ body.page-ready .socials a:nth-child(10){animation-delay:.70s}
   justify-content:center;
   transition:all .25s ease;
   box-shadow:0 8px 26px rgba(0,0,0,.35);
+  outline:none;
 }
 .roulette-trigger:hover{
   background:rgba(255,255,255,.12);
@@ -414,7 +645,8 @@ body.page-ready .socials a:nth-child(10){animation-delay:.70s}
   visibility:hidden;
   pointer-events:none;
   transform:scale(1.02);
-  transition:opacity .45s ease, transform .45s cubic-bezier(.2,.8,.2,1), visibility .45s ease;
+  transition:opacity .45s ease, transform .45s cubic-bezier(.2,.8,.2,1),
+             visibility .45s ease, background .5s ease;
   display:flex;
   flex-direction:column;
   padding:24px 40px 20px;
@@ -476,6 +708,7 @@ body.page-ready .socials a:nth-child(10){animation-delay:.70s}
   border-top:18px solid #fff;
   filter:drop-shadow(0 2px 4px rgba(0,0,0,.6));
   z-index:3;
+  transition:border-top-color .5s ease;
 }
 .rp-wheel-result{
   font-size:15px;
@@ -503,6 +736,7 @@ body.page-ready .socials a:nth-child(10){animation-delay:.70s}
   text-transform:uppercase;
   cursor:pointer;
   transition:all .25s ease;
+  outline:none;
 }
 .rp-spin-btn:hover{
   background:linear-gradient(180deg, rgba(255,255,255,.22), rgba(255,255,255,.1));
@@ -530,10 +764,47 @@ body.page-ready .socials a:nth-child(10){animation-delay:.70s}
   color:rgba(255,255,255,.5);
   letter-spacing:1px;
   margin-bottom:14px;
+  position:relative;
 }
 .rp-balance b{
   color:#fff;
   font-size:19px;
+  transition:color .3s ease, text-shadow .3s ease;
+}
+.rp-balance b.flash-win{
+  color:#4ade80;
+  text-shadow:0 0 20px rgba(74,222,128,.7);
+}
+.rp-balance b.flash-lose{
+  color:#f87171;
+  text-shadow:0 0 20px rgba(248,113,113,.7);
+}
+
+.balance-float{
+  position:absolute;
+  right:0;
+  top:-24px;
+  font-size:16px;
+  font-weight:700;
+  letter-spacing:1px;
+  pointer-events:none;
+  opacity:0;
+  transform:translateY(6px);
+  transition:opacity .3s ease, transform .3s ease;
+}
+.balance-float.show{
+  opacity:1;
+  transform:translateY(0);
+  animation:floatUp 1.4s ease forwards;
+}
+.balance-float.plus{ color:#4ade80; text-shadow:0 0 14px rgba(74,222,128,.6); }
+.balance-float.minus{ color:#f87171; text-shadow:0 0 14px rgba(248,113,113,.6); }
+
+@keyframes floatUp{
+  0% { opacity:0; transform:translateY(6px); }
+  15% { opacity:1; transform:translateY(0); }
+  75% { opacity:1; transform:translateY(-8px); }
+  100% { opacity:0; transform:translateY(-18px); }
 }
 
 .rp-table{
@@ -557,7 +828,7 @@ body.page-ready .socials a:nth-child(10){animation-delay:.70s}
   font-weight:600;
   color:#fff;
   cursor:pointer;
-  transition:background .18s ease, border-color .18s ease;
+  transition:background .18s ease, border-color .18s ease, color .5s ease;
   user-select:none;
   position:relative;
   overflow:hidden;
@@ -573,7 +844,6 @@ body.page-ready .socials a:nth-child(10){animation-delay:.70s}
 .rp-cell.green{ background:rgba(28,130,76,.55); }
 .rp-cell.green:hover{ background:rgba(28,130,76,.75); }
 
-/* Внешние ставки «красное/чёрное» — те же цвета, что и у чисел */
 .rp-cell.bet-red{
   background:rgba(160,32,42,.55);
   border-color:rgba(200,60,70,.35);
@@ -591,7 +861,6 @@ body.page-ready .socials a:nth-child(10){animation-delay:.70s}
   border-color:rgba(90,90,105,.65);
 }
 
-/* Иконка-кружок внутри ячейки: нагляднее, чем ромбик */
 .rp-cell .dot{
   width:16px;
   height:16px;
@@ -620,6 +889,15 @@ body.page-ready .socials a:nth-child(10){animation-delay:.70s}
   pointer-events:none;
 }
 
+.rp-cell.win-glow{
+  animation:winGlow 1.6s ease;
+}
+@keyframes winGlow{
+  0% { box-shadow:0 0 0 rgba(74,222,128,0); }
+  25% { box-shadow:0 0 24px rgba(74,222,128,.9), inset 0 0 12px rgba(74,222,128,.4); }
+  100% { box-shadow:0 0 0 rgba(74,222,128,0); }
+}
+
 .rp-chip{
   position:absolute;
   width:20px;height:20px;
@@ -644,6 +922,7 @@ body.page-ready .socials a:nth-child(10){animation-delay:.70s}
   margin-bottom:8px;
 }
 .rp-bet-info b{ color:#fff; }
+.rp-bet-info b.win{ color:#4ade80; }
 
 .rp-footer{
   display:flex;
@@ -654,12 +933,121 @@ body.page-ready .socials a:nth-child(10){animation-delay:.70s}
   letter-spacing:1px;
 }
 
+/* ============================================================
+   WIN BANNER
+   ============================================================ */
+.win-banner{
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%) scale(.7);
+  z-index:10000;
+  pointer-events:none;
+  opacity:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:36px 68px;
+  border-radius:28px;
+  background:linear-gradient(135deg, rgba(74,222,128,.14), rgba(34,197,94,.06));
+  border:1px solid rgba(74,222,128,.35);
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
+  box-shadow:
+    0 30px 90px rgba(0,0,0,.6),
+    0 0 80px rgba(74,222,128,.35),
+    inset 0 0 40px rgba(74,222,128,.08);
+  text-align:center;
+}
+.win-banner.show{
+  animation:winBannerPop 2.4s cubic-bezier(.2,.8,.2,1) forwards;
+}
+.win-banner.lose{
+  background:linear-gradient(135deg, rgba(248,113,113,.14), rgba(220,38,38,.06));
+  border-color:rgba(248,113,113,.35);
+  box-shadow:
+    0 30px 90px rgba(0,0,0,.6),
+    0 0 80px rgba(248,113,113,.3),
+    inset 0 0 40px rgba(248,113,113,.08);
+}
+.win-banner .wb-emoji{
+  font-size:52px;
+  line-height:1;
+  filter:drop-shadow(0 6px 20px rgba(74,222,128,.5));
+}
+.win-banner.lose .wb-emoji{
+  filter:drop-shadow(0 6px 20px rgba(248,113,113,.4));
+}
+.win-banner .wb-label{
+  font-size:13px;
+  letter-spacing:5px;
+  text-transform:uppercase;
+  color:rgba(74,222,128,.85);
+  font-weight:600;
+}
+.win-banner.lose .wb-label{
+  color:rgba(248,113,113,.85);
+}
+.win-banner .wb-amount{
+  font-size:56px;
+  font-weight:800;
+  letter-spacing:-1px;
+  color:#4ade80;
+  text-shadow:0 0 40px rgba(74,222,128,.7), 0 4px 20px rgba(0,0,0,.5);
+  font-variant-numeric:tabular-nums;
+}
+.win-banner.lose .wb-amount{
+  color:#f87171;
+  text-shadow:0 0 40px rgba(248,113,113,.6), 0 4px 20px rgba(0,0,0,.5);
+}
+.win-banner .wb-number{
+  font-size:12px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.45);
+  margin-top:2px;
+}
+.win-banner .wb-number b{
+  color:#fff;
+  font-weight:700;
+  font-size:14px;
+}
+
+@keyframes winBannerPop{
+  0% { opacity:0; transform:translate(-50%, -50%) scale(.65); }
+  12% { opacity:1; transform:translate(-50%, -50%) scale(1.06); }
+  20% { opacity:1; transform:translate(-50%, -50%) scale(1); }
+  80% { opacity:1; transform:translate(-50%, -50%) scale(1); }
+  100% { opacity:0; transform:translate(-50%, -50%) scale(.92); }
+}
+
+.spark{
+  position:fixed;
+  z-index:9999;
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  pointer-events:none;
+  background:radial-gradient(circle, #fff, #4ade80 60%, transparent);
+  box-shadow:0 0 12px rgba(74,222,128,.9);
+  animation:sparkFly 1.2s cubic-bezier(.2,.7,.4,1) forwards;
+}
+@keyframes sparkFly{
+  0% { opacity:1; transform:translate(0,0) scale(1); }
+  100% { opacity:0; transform:translate(var(--dx), var(--dy)) scale(.2); }
+}
+
 @media (max-width: 1280px){
   .rp-main{ grid-template-columns: 300px 1fr; gap:28px; }
   .rp-wheel{ width:280px; height:280px; }
   .rp-table{ height:min(62vh, 480px); }
   .rp-cell{ font-size:13px; }
   .rp-table{ grid-template-columns: repeat(12, 1fr) 62px; }
+  .win-banner{ padding:28px 48px; }
+  .win-banner .wb-amount{ font-size:44px; }
+  .win-banner .wb-emoji{ font-size:42px; }
 }
 
 @media (max-width: 920px){
@@ -672,6 +1060,10 @@ body.page-ready .socials a:nth-child(10){animation-delay:.70s}
     grid-template-rows: repeat(3, 46px) 42px 38px 38px;
   }
   .rp-cell{ font-size:11px; }
+  .win-banner{ padding:24px 36px; }
+  .win-banner .wb-amount{ font-size:36px; }
+  .win-banner .wb-emoji{ font-size:36px; }
+  .ip-badge{ font-size:11px; padding:0 14px; height:36px; }
 }
 </style>
 </head>
@@ -684,14 +1076,22 @@ body.page-ready .socials a:nth-child(10){animation-delay:.70s}
 
 <canvas id="bg"></canvas>
 
-<div class="card">
-  <div class="avatar-wrap">
-    <div class="avatar-glow"></div>
-    <img id="avatar" src="" alt="avatar">
+<div class="ip-badge" id="ipBadge">
+  <span class="ip-dot"></span>
+  <span class="ip-label">IP</span>
+  <span class="ip-value" id="ipValue">—</span>
+</div>
+
+<div class="card" id="profileCard">
+  <div class="card-inner" id="cardInner">
+    <div class="avatar-wrap">
+      <div class="avatar-glow"></div>
+      <img id="avatar" src="" alt="avatar">
+    </div>
+    <div class="hint" id="displayHint">click to enter...</div>
+    <div class="name" id="displayName">MrNevil</div>
+    <div class="socials" id="socials"></div>
   </div>
-  <div class="hint" id="displayHint">click to enter...</div>
-  <div class="name" id="displayName">MrNevil</div>
-  <div class="socials" id="socials"></div>
 </div>
 
 <button class="roulette-trigger" id="rouletteTrigger" title="Рулетка" aria-label="Открыть рулетку">
@@ -699,6 +1099,22 @@ body.page-ready .socials a:nth-child(10){animation-delay:.70s}
     <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2a8 8 0 1 1 0 16 8 8 0 0 1 0-16zm0 2.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11zm0 2a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7zm0 2a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/>
   </svg>
 </button>
+
+<button class="theme-toggle" id="themeToggle" title="Светлая тема" aria-label="Переключить тему">
+  <svg class="icon-sun" viewBox="0 0 24 24">
+    <path d="M12 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12zm0-2a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM11 1h2v3h-2V1zm0 19h2v3h-2v-3zM3.515 4.929l1.414-1.414L7.05 5.636 5.636 7.05 3.515 4.93zM16.95 18.364l1.414-1.414 2.121 2.121-1.414 1.414-2.121-2.121zm2.121-14.435l1.414 1.414-2.121 2.121-1.414-1.414 2.121-2.121zM5.636 16.95l1.414 1.414-2.121 2.121-1.414-1.414 2.121-2.121zM23 11v2h-3v-2h3zM4 11v2H1v-2h3z"/>
+  </svg>
+  <svg class="icon-moon" viewBox="0 0 24 24">
+    <path d="M12.1 22a10 10 0 0 1-8.42-15.37 1 1 0 0 1 1.4-.26A8 8 0 0 0 17.6 4.47a1 1 0 0 1 1.62 1.03A10.02 10.02 0 0 1 12.1 22z"/>
+  </svg>
+</button>
+
+<div class="win-banner" id="winBanner">
+  <div class="wb-emoji" id="wbEmoji">🎉</div>
+  <div class="wb-label" id="wbLabel">Выигрыш</div>
+  <div class="wb-amount" id="wbAmount">0 ₽</div>
+  <div class="wb-number" id="wbNumber">Выпало: <b>—</b></div>
+</div>
 
 <div class="roulette-panel" id="roulettePanel">
   <div class="rp-main">
@@ -716,6 +1132,7 @@ body.page-ready .socials a:nth-child(10){animation-delay:.70s}
       <div class="rp-balance">
         <span>Баланс</span>
         <b id="balanceEl">1000 ₽</b>
+        <span class="balance-float" id="balanceFloat"></span>
       </div>
       <div class="rp-table" id="betTable"></div>
       <div class="rp-bet-info">
@@ -744,6 +1161,146 @@ overlay.addEventListener('click', () => {
   overlay.classList.add('hidden');
 });
 
+// ============================================================
+// ПАРАЛЛАКС ПРИ ДВИЖЕНИИ МЫШИ
+// ============================================================
+(function(){
+  const cardInner = document.getElementById('cardInner');
+  const particlesCanvas = document.getElementById('interactiveParticles');
+  const bgCanvas = document.getElementById('bg');
+
+  if (!cardInner) return;
+
+  const isTouch = matchMedia('(hover: none), (pointer: coarse)').matches;
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (isTouch || reduced) return;
+
+  let targetX = 0, targetY = 0;
+  let currentX = 0, currentY = 0;
+  let raf = null;
+  let hasEntered = false;
+
+  const CARD_ROT = 8;
+  const CARD_SHIFT = 10;
+  const BG_SHIFT = 18;
+
+  function onMove(e){
+    if (!hasEntered) return;
+    const cx = window.innerWidth / 2;
+    const cy = window.innerHeight / 2;
+    targetX = (e.clientX - cx) / cx;
+    targetY = (e.clientY - cy) / cy;
+    if (!raf) raf = requestAnimationFrame(update);
+  }
+
+  function update(){
+    currentX += (targetX - currentX) * 0.12;
+    currentY += (targetY - currentY) * 0.12;
+
+    const rotY = currentX * CARD_ROT;
+    const rotX = -currentY * CARD_ROT;
+    const shiftX = currentX * CARD_SHIFT;
+    const shiftY = currentY * CARD_SHIFT;
+
+    cardInner.style.transform =
+      `rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) ` +
+      `translate3d(${shiftX.toFixed(2)}px, ${shiftY.toFixed(2)}px, 0)`;
+
+    if (particlesCanvas) {
+      particlesCanvas.style.transform =
+        `translate3d(${(-currentX * BG_SHIFT).toFixed(2)}px, ${(-currentY * BG_SHIFT).toFixed(2)}px, 0)`;
+    }
+    if (bgCanvas) {
+      bgCanvas.style.transform =
+        `translate3d(${(currentX * BG_SHIFT * 0.5).toFixed(2)}px, ${(currentY * BG_SHIFT * 0.5).toFixed(2)}px, 0)`;
+    }
+
+    const dx = Math.abs(targetX - currentX);
+    const dy = Math.abs(targetY - currentY);
+    if (dx > 0.001 || dy > 0.001) {
+      raf = requestAnimationFrame(update);
+    } else {
+      raf = null;
+    }
+  }
+
+  function resetSmooth(){
+    targetX = 0; targetY = 0;
+    if (!raf) raf = requestAnimationFrame(update);
+  }
+
+  window.addEventListener('pointermove', onMove, { passive: true });
+  window.addEventListener('pointerleave', resetSmooth);
+
+  const overlayEl = document.getElementById('overlay');
+  if (overlayEl) {
+    overlayEl.addEventListener('click', () => {
+      setTimeout(() => { hasEntered = true; }, 600);
+    }, { once: true });
+  } else {
+    hasEntered = true;
+  }
+})();
+
+// === ПЕРЕКЛЮЧАТЕЛЬ ТЕМЫ ===
+(function(){
+  const toggle = document.getElementById('themeToggle');
+  if (!toggle) return;
+  const saved = localStorage.getItem('theme');
+  if (saved === 'light') document.body.classList.add('light-theme');
+
+  toggle.addEventListener('click', function(e){
+    e.stopPropagation();
+    document.body.classList.toggle('light-theme');
+    const isLight = document.body.classList.contains('light-theme');
+    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    toggle.title = isLight ? 'Тёмная тема' : 'Светлая тема';
+  });
+})();
+
+// === ОПРЕДЕЛЕНИЕ IP-АДРЕСА ===
+(function(){
+  const ipBadge = document.getElementById('ipBadge');
+  const ipValue = document.getElementById('ipValue');
+  if (!ipBadge || !ipValue) return;
+
+  function showBadge(){
+    setTimeout(() => ipBadge.classList.add('show'), 900);
+  }
+
+  function fetchIP(){
+    const sources = [
+      { url: 'https://api.ipify.org?format=json', key: 'ip' },
+      { url: 'https://ipapi.co/json/',            key: 'ip' },
+      { url: 'https://api.ipify.org',             raw: true }
+    ];
+    let idx = 0;
+    function tryNext(){
+      if (idx >= sources.length) {
+        ipValue.textContent = 'недоступен';
+        return;
+      }
+      const src = sources[idx++];
+      fetch(src.url, { cache: 'no-store' })
+        .then(r => src.raw ? r.text() : r.json())
+        .then(data => {
+          const ip = src.raw ? data.trim() : data[src.key];
+          if (ip && typeof ip === 'string' && ip.length > 0) {
+            ipValue.textContent = ip;
+          } else {
+            tryNext();
+          }
+        })
+        .catch(() => tryNext());
+    }
+    tryNext();
+  }
+
+  fetchIP();
+  showBadge();
+})();
+
+// === КАНВАС ФОНА ===
 const canvas = document.getElementById('bg');
 const ctx = canvas.getContext('2d');
 let w, h, time = 0;
@@ -766,20 +1323,25 @@ function resize() {
 resize();
 window.addEventListener('resize', resize);
 
+function isLight(){ return document.body.classList.contains('light-theme'); }
+
 function draw() {
   time += 0.006;
   ctx.clearRect(0, 0, w, h);
 
+  const light = isLight();
+  const baseCol = light ? '0,0,0' : '255,255,255';
+
   const glows = [
-    { x: w * 0.18 + Math.sin(time * 0.7) * w * 0.08, y: h * 0.25 + Math.cos(time) * h * 0.08, r: Math.max(w,h) * 0.34, a: 0.055 },
-    { x: w * 0.82 + Math.cos(time * 0.55) * w * 0.09, y: h * 0.72 + Math.sin(time * 0.8) * h * 0.08, r: Math.max(w,h) * 0.38, a: 0.045 },
-    { x: w * 0.52 + Math.sin(time * 0.35) * w * 0.12, y: h * 0.48 + Math.cos(time * 0.6) * h * 0.12, r: Math.max(w,h) * 0.28, a: 0.035 }
+    { x: w * 0.18 + Math.sin(time * 0.7) * w * 0.08, y: h * 0.25 + Math.cos(time) * h * 0.08, r: Math.max(w,h) * 0.34, a: light ? 0.04 : 0.055 },
+    { x: w * 0.82 + Math.cos(time * 0.55) * w * 0.09, y: h * 0.72 + Math.sin(time * 0.8) * h * 0.08, r: Math.max(w,h) * 0.38, a: light ? 0.035 : 0.045 },
+    { x: w * 0.52 + Math.sin(time * 0.35) * w * 0.12, y: h * 0.48 + Math.cos(time * 0.6) * h * 0.12, r: Math.max(w,h) * 0.28, a: light ? 0.025 : 0.035 }
   ];
 
   glows.forEach(g => {
     const grad = ctx.createRadialGradient(g.x, g.y, 0, g.x, g.y, g.r);
-    grad.addColorStop(0, `rgba(255,255,255,${g.a})`);
-    grad.addColorStop(1, 'rgba(255,255,255,0)');
+    grad.addColorStop(0, `rgba(${baseCol},${g.a})`);
+    grad.addColorStop(1, `rgba(${baseCol},0)`);
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, w, h);
   });
@@ -795,7 +1357,7 @@ function draw() {
     const pulse = 0.55 + Math.sin(time * 1.5 + p.phase) * 0.45;
     ctx.beginPath();
     ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(255,255,255,${p.a * pulse})`;
+    ctx.fillStyle = `rgba(${baseCol},${p.a * pulse})`;
     ctx.fill();
   });
 
@@ -809,7 +1371,7 @@ function draw() {
         ctx.beginPath();
         ctx.moveTo(a.x, a.y);
         ctx.lineTo(b.x, b.y);
-        ctx.strokeStyle = `rgba(255,255,255,${alpha})`;
+        ctx.strokeStyle = `rgba(${baseCol},${alpha})`;
         ctx.lineWidth = 0.7;
         ctx.stroke();
       }
@@ -818,7 +1380,7 @@ function draw() {
 
   for (let i = 0; i < 4; i++) {
     ctx.beginPath();
-    ctx.strokeStyle = `rgba(255,255,255,${0.025 + i * 0.012})`;
+    ctx.strokeStyle = `rgba(${baseCol},${0.025 + i * 0.012})`;
     ctx.lineWidth = 1.2;
     for (let x = -80; x <= w + 80; x += 8) {
       const y = h * (0.18 + i * 0.22)
@@ -958,6 +1520,10 @@ function render() {
 
   function frame(){
     ctx.clearRect(0,0,w,h);
+    const light = document.body.classList.contains('light-theme');
+    const col = light ? '0,0,0' : '255,255,255';
+    const alpha = light ? .5 : .62;
+
     for(let i=0;i<particles.length;i++){
       const p = particles[i];
       p.x += p.vx; p.y += p.vy;
@@ -977,7 +1543,7 @@ function render() {
       }
       ctx.beginPath();
       ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-      ctx.fillStyle = "rgba(255,255,255,.62)";
+      ctx.fillStyle = `rgba(${col},${alpha})`;
       ctx.fill();
     }
     for(let i=0;i<particles.length;i++){
@@ -986,8 +1552,8 @@ function render() {
         const dx=a.x-b.x, dy=a.y-b.y;
         const dist=Math.hypot(dx,dy);
         if(dist < 115){
-          const alpha=(1-dist/115)*.14;
-          ctx.strokeStyle=`rgba(255,255,255,${alpha})`;
+          const al=(1-dist/115)*.14;
+          ctx.strokeStyle=`rgba(${col},${al})`;
           ctx.lineWidth=1;
           ctx.beginPath();
           ctx.moveTo(a.x,a.y);
@@ -996,13 +1562,7 @@ function render() {
         }
       }
     }
-    if(mouse.active){
-      const g=ctx.createRadialGradient(mouse.x,mouse.y,0,mouse.x,mouse.y,150);
-      g.addColorStop(0,"rgba(255,255,255,.075)");
-      g.addColorStop(1,"rgba(255,255,255,0)");
-      ctx.fillStyle=g;
-      ctx.fillRect(mouse.x-150,mouse.y-150,300,300);
-    }
+    // Свечение вокруг курсора убрано
     requestAnimationFrame(frame);
   }
   resize();
@@ -1019,9 +1579,15 @@ function render() {
   const resultEl = document.getElementById('wheelResult');
   const spinBtn = document.getElementById('spinBtn');
   const balanceEl = document.getElementById('balanceEl');
+  const balanceFloat = document.getElementById('balanceFloat');
   const betAmountEl = document.getElementById('betAmountEl');
   const payoutEl = document.getElementById('payoutEl');
   const betTable = document.getElementById('betTable');
+  const winBanner = document.getElementById('winBanner');
+  const wbEmoji = document.getElementById('wbEmoji');
+  const wbLabel = document.getElementById('wbLabel');
+  const wbAmount = document.getElementById('wbAmount');
+  const wbNumber = document.getElementById('wbNumber');
 
   if (!panel || !trigger) return;
 
@@ -1098,7 +1664,6 @@ function render() {
   CELLS.push({ label: '3rd 12', type: 'dozen', value: 3, row: 5, col: '9 / span 4' });
   CELLS.push({ label: '',       type: 'empty',          row: 5, col: 13 });
 
-  // Ряд 6: 6 внешних ставок. Красное/чёрное теперь имеют явные классы + иконку-кружок.
   CELLS.push({ label: '1 to 18', type: 'low',   row: 6, col: '1 / span 2' });
   CELLS.push({ label: 'EVEN',    type: 'even',  row: 6, col: '3 / span 2' });
   CELLS.push({ label: '',        type: 'red',   row: 6, col: '5 / span 2', betColor: 'red' });
@@ -1113,6 +1678,70 @@ function render() {
 
   function updateBalance(){ balanceEl.textContent = balance.toLocaleString('ru-RU') + ' ₽'; }
   function updateBetInfo(){ betAmountEl.textContent = currentBet; payoutEl.textContent = '0'; }
+
+  function showFloat(amount, isWin){
+    balanceFloat.textContent = (isWin ? '+' : '−') + Math.abs(amount) + ' ₽';
+    balanceFloat.classList.remove('plus', 'minus', 'show');
+    void balanceFloat.offsetWidth;
+    balanceFloat.classList.add(isWin ? 'plus' : 'minus');
+    balanceFloat.classList.add('show');
+    setTimeout(() => balanceFloat.classList.remove('show'), 1400);
+  }
+
+  function flashBalance(isWin){
+    balanceEl.classList.remove('flash-win', 'flash-lose');
+    void balanceEl.offsetWidth;
+    balanceEl.classList.add(isWin ? 'flash-win' : 'flash-lose');
+    setTimeout(() => balanceEl.classList.remove('flash-win', 'flash-lose'), 1000);
+  }
+
+  function showWinBanner(isWin, amount, winNumber){
+    winBanner.classList.remove('show', 'lose');
+    void winBanner.offsetWidth;
+
+    if (isWin) {
+      wbEmoji.textContent = '🎉';
+      wbLabel.textContent = 'Выигрыш';
+      wbAmount.textContent = '+' + amount.toLocaleString('ru-RU') + ' ₽';
+      winBanner.classList.add('show');
+      spawnSparks();
+    } else {
+      wbEmoji.textContent = '😔';
+      wbLabel.textContent = 'Проигрыш';
+      wbAmount.textContent = '−' + amount.toLocaleString('ru-RU') + ' ₽';
+      winBanner.classList.add('lose');
+      winBanner.classList.add('show');
+    }
+
+    if (winNumber !== undefined) {
+      wbNumber.innerHTML = `Выпало: <b>${winNumber}</b>`;
+    } else {
+      wbNumber.innerHTML = '';
+    }
+
+    setTimeout(() => winBanner.classList.remove('show', 'lose'), 2500);
+  }
+
+  function spawnSparks(){
+    const count = 28;
+    const cx = window.innerWidth / 2;
+    const cy = window.innerHeight / 2;
+    for (let i = 0; i < count; i++) {
+      const spark = document.createElement('div');
+      spark.className = 'spark';
+      const angle = (Math.PI * 2 * i) / count + Math.random() * 0.4;
+      const dist = 140 + Math.random() * 220;
+      const dx = Math.cos(angle) * dist;
+      const dy = Math.sin(angle) * dist;
+      spark.style.left = cx + 'px';
+      spark.style.top = cy + 'px';
+      spark.style.setProperty('--dx', dx + 'px');
+      spark.style.setProperty('--dy', dy + 'px');
+      spark.style.animationDelay = (Math.random() * 0.15) + 's';
+      document.body.appendChild(spark);
+      setTimeout(() => spark.remove(), 1600);
+    }
+  }
 
   function renderTable(){
     betTable.innerHTML = '';
@@ -1131,7 +1760,6 @@ function render() {
       if (c.type === 'empty') div.classList.add('empty');
 
       if (c.betColor) {
-        // Внешние ставки «красное/чёрное» — рисуем кружок вместо текста
         div.innerHTML = `<span class="dot"></span>`;
       } else {
         div.textContent = c.label;
@@ -1205,6 +1833,8 @@ function render() {
 
   function calculatePayout(winNumber){
     let payout = 0;
+    const wonCells = [];
+
     bets.forEach(bet => {
       let win = false, multiplier = 0;
       switch (bet.type) {
@@ -1242,11 +1872,39 @@ function render() {
           }
           break;
       }
-      if (win) payout += bet.amount * multiplier;
+      if (win) {
+        const winAmount = bet.amount * multiplier;
+        payout += winAmount;
+        wonCells.push(bet.cellIdx);
+      }
     });
 
-    if (payout > 0) { balance += payout; payoutEl.textContent = payout; updateBalance(); }
-    else payoutEl.textContent = '0';
+    const totalBet = currentBet;
+
+    if (payout > 0) {
+      balance += payout;
+      updateBalance();
+      payoutEl.textContent = payout;
+      payoutEl.classList.add('win');
+      setTimeout(() => payoutEl.classList.remove('win'), 1500);
+      flashBalance(true);
+      showFloat(payout, true);
+      showWinBanner(true, payout, winNumber);
+      wonCells.forEach(idx => {
+        const el = betTable.querySelector(`[data-idx="${idx}"]`);
+        if (el) {
+          el.classList.add('win-glow');
+          setTimeout(() => el.classList.remove('win-glow'), 1700);
+        }
+      });
+    } else {
+      payoutEl.textContent = '0';
+      flashBalance(false);
+      if (totalBet > 0) {
+        showFloat(totalBet, false);
+        showWinBanner(false, totalBet, winNumber);
+      }
+    }
 
     bets.length = 0; currentBet = 0;
     betTable.querySelectorAll('.rp-chip').forEach(ch => ch.remove());
