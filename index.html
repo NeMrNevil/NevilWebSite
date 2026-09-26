@@ -24,9 +24,6 @@
     outline: none;
   }
 
-  /* ============================================================
-     СВЕТЛАЯ ТЕМА
-     ============================================================ */
   body.light-theme {
     background: #eef0f4;
   }
@@ -1162,13 +1159,12 @@ overlay.addEventListener('click', () => {
 });
 
 // ============================================================
-// ПАРАЛЛАКС ПРИ ДВИЖЕНИИ МЫШИ
+// ПАРАЛЛАКС
 // ============================================================
 (function(){
   const cardInner = document.getElementById('cardInner');
   const particlesCanvas = document.getElementById('interactiveParticles');
   const bgCanvas = document.getElementById('bg');
-
   if (!cardInner) return;
 
   const isTouch = matchMedia('(hover: none), (pointer: coarse)').matches;
@@ -1258,7 +1254,7 @@ overlay.addEventListener('click', () => {
   });
 })();
 
-// === ОПРЕДЕЛЕНИЕ IP-АДРЕСА ===
+// === IP ===
 (function(){
   const ipBadge = document.getElementById('ipBadge');
   const ipValue = document.getElementById('ipValue');
@@ -1562,7 +1558,6 @@ function render() {
         }
       }
     }
-    // Свечение вокруг курсора убрано
     requestAnimationFrame(frame);
   }
   resize();
@@ -1570,7 +1565,7 @@ function render() {
 })();
 </script>
 
-<!-- ================= ЛОГИКА РУЛЕТКИ ================= -->
+<!-- ================= ЛОГИКА РУЛЕТКИ (ИСПРАВЛЕНА) ================= -->
 <script>
 (function(){
   const panel = document.getElementById('roulettePanel');
@@ -1591,49 +1586,64 @@ function render() {
 
   if (!panel || !trigger) return;
 
+  // === Европейский порядок (37 чисел). При желании замени на американский. ===
   const WHEEL_ORDER = [
     0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5,
     24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12, 35, 3, 26
   ];
+  const N = WHEEL_ORDER.length;             // 37
+  const SEG = 360 / N;                       // ~9.7297°
+
   const RED_NUMBERS = new Set([1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36]);
   const BLACK_NUMBERS = new Set([2,4,6,8,10,11,13,15,17,20,22,24,26,28,29,31,33,35]);
 
   function numberColor(n){
-    if (n === 0 || n === '00') return '#1f8a4c';
+    if (n === 0) return '#1f8a4c';
     return RED_NUMBERS.has(n) ? '#b0232d' : '#141418';
   }
 
+  // === Отрисовка колеса ===
+  // ВАЖНО: сектор с индексом i рисуется с углом mid = -90° + i*SEG
+  // (т.е. 0-й сектор по умолчанию ровно сверху, под указателем).
   function buildWheel(){
     const cx = 100, cy = 100;
     const rOuter = 92, rInner = 62;
-    const segments = WHEEL_ORDER.length;
-    const angleStep = (Math.PI * 2) / segments;
+    const angleStep = (Math.PI * 2) / N;
     let html = '';
+
     html += `<circle cx="${cx}" cy="${cy}" r="${rOuter}" fill="rgba(0,0,0,0.35)" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>`;
+
     WHEEL_ORDER.forEach((num, i) => {
-      const start = -Math.PI / 2 + i * angleStep - angleStep / 2;
-      const end = start + angleStep;
+      // Верх = -90°. Центр сектора i: -90° + i*angleStep.
+      const mid = -Math.PI / 2 + i * angleStep;
+      const start = mid - angleStep / 2;
+      const end   = mid + angleStep / 2;
+
       const x1 = cx + rInner * Math.cos(start), y1 = cy + rInner * Math.sin(start);
       const x2 = cx + rOuter * Math.cos(start), y2 = cy + rOuter * Math.sin(start);
       const x3 = cx + rOuter * Math.cos(end),   y3 = cy + rOuter * Math.sin(end);
       const x4 = cx + rInner * Math.cos(end),   y4 = cy + rInner * Math.sin(end);
       const large = angleStep > Math.PI ? 1 : 0;
-      const mid = start + angleStep / 2;
+
       const textR = (rInner + rOuter) / 2;
       const tx = cx + textR * Math.cos(mid);
       const ty = cy + textR * Math.sin(mid);
       const color = numberColor(num);
+
       html += `<path d="M${x1} ${y1} L${x2} ${y2} A${rOuter} ${rOuter} 0 ${large} 1 ${x3} ${y3} L${x4} ${y4} A${rInner} ${rInner} 0 ${large} 0 ${x1} ${y1} Z"
         fill="${color}" stroke="rgba(255,255,255,0.22)" stroke-width="0.8"/>`;
+
       html += `<text x="${tx}" y="${ty}" text-anchor="middle" dominant-baseline="central"
         font-size="7.5" font-weight="700" fill="#fff" transform="rotate(${(mid * 180 / Math.PI) + 90} ${tx} ${ty})"
         style="paint-order:stroke;stroke:rgba(0,0,0,0.45);stroke-width:1.2px">${num}</text>`;
     });
+
     html += `<circle cx="${cx}" cy="${cy}" r="${rInner}" fill="rgba(0,0,0,0.55)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>`;
     wheelSvg.innerHTML = html;
   }
   buildWheel();
 
+  // === Стол ===
   const CELLS = [];
 
   for (let i = 0; i < 12; i++) {
@@ -1654,10 +1664,10 @@ function render() {
   }
   CELLS.push({ label: '2 to 1', type: 'column', value: 1, side: true, row: 3, col: 13 });
 
-  CELLS.push({ label: '0',  type: 'number', value: 0,    green: true, row: 4, col: '1 / span 4' });
-  CELLS.push({ label: '',   type: 'empty',                            row: 4, col: '5 / span 4' });
-  CELLS.push({ label: '00', type: 'number', value: '00', green: true, row: 4, col: '9 / span 4' });
-  CELLS.push({ label: '',   type: 'empty',                            row: 4, col: 13 });
+  // Одно зеро слева + пустое место (европейская раскладка)
+  CELLS.push({ label: '0', type: 'number', value: 0, green: true, row: 4, col: '1 / span 4' });
+  CELLS.push({ label: '',  type: 'empty',                          row: 4, col: '5 / span 9' });
+  CELLS.push({ label: '',  type: 'empty',                          row: 4, col: 13 });
 
   CELLS.push({ label: '1st 12', type: 'dozen', value: 1, row: 5, col: '1 / span 4' });
   CELLS.push({ label: '2nd 12', type: 'dozen', value: 2, row: 5, col: '5 / span 4' });
@@ -1807,7 +1817,8 @@ function render() {
 
   renderTable();
 
-  let spinning = false, currentRotation = 0;
+  let spinning = false;
+  let currentRotation = 0;
 
   function spin(){
     if (spinning) return;
@@ -1816,11 +1827,29 @@ function render() {
     spinBtn.disabled = true;
     resultEl.textContent = 'Крутится...';
 
-    const winIndex = Math.floor(Math.random() * WHEEL_ORDER.length);
+    // Выбираем индекс выигрышного сектора
+    const winIndex = Math.floor(Math.random() * N);
     const winNumber = WHEEL_ORDER[winIndex];
-    const angleStep = 360 / WHEEL_ORDER.length;
-    const targetAngle = 360 * 5 + (360 - (winIndex * angleStep));
-    currentRotation += targetAngle;
+
+    // Сектор i изначально под указателем при rotation = 0.
+    // Чтобы под указателем оказался сектор winIndex, нужно повернуть колесо
+    // на -winIndex*SEG (по часовой стрелке = +, против = -).
+    // CSS rotate() идёт по часовой стрелке, а наши углы в SVG — тоже по часовой
+    // (ось Y вниз), значит совпадение: поворот на (-winIndex * SEG).
+    // Добавляем обороты и небольшой случайный доворот.
+    const baseRotation = -winIndex * SEG;
+    const fullTurns = 360 * (5 + Math.floor(Math.random() * 3)); // 5–7 оборотов
+    const jitter = (Math.random() - 0.5) * (SEG * 0.5);         // лёгкий разброс внутри сектора
+
+    // Текущее положение приводим к целевому, чтобы не «прыгало» назад
+    const currentMod = ((currentRotation % 360) + 360) % 360;
+    const targetMod  = ((baseRotation % 360) + 360) % 360;
+    let delta = targetMod - currentMod;
+    if (delta < 0) delta += 360;
+
+    const targetRotation = currentRotation + fullTurns + delta + jitter;
+    currentRotation = targetRotation;
+
     wheelSvg.style.transform = `rotate(${currentRotation}deg)`;
 
     setTimeout(() => {
